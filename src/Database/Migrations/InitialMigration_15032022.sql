@@ -1,0 +1,9 @@
+CREATE TABLE users (
+  id INT AUTO_INCREMENT NOT NULL,
+  name VARCHAR(40) NOT NULL,
+  age INT NOT NULL,
+  email VARCHAR(40) NOT NULL,
+
+  CONSTRAINT pk_users
+  PRIMARY KEY (id)
+)

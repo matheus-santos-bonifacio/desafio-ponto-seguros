@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  application:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    container_name: ponto_seguros_application
+    profiles: ["dev"]
+    ports:
+      - 3000:80
+    volumes:
+      - ./src:/var/www/html/
+      - ./config/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    working_dir: /var/www/html
+    depends_on:
+      - db
+    environment:
+      DATABASE: mysql
+      DATABASE_HOST: ponto_seguros_db
+      MYSQL_DATABASE: ponto_seguros_db
+      MYSQL_USER: ponto_seguros
+      MYSQL_PASSWORD: ponto_seguros
+
+  db:
+    image: mysql:8.0
+    container_name: ponto_seguros_db
+    volumes:
+      - ponto_seguros_db:/var/lib/mysql
+    profiles: ["dev", "database"]
+    environment:
+      MYSQL_USER: ponto_seguros
+      MYSQL_PASSWORD: ponto_seguros
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ponto_seguros_db
+
+volumes:
+  ponto_seguros_db:
